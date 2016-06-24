@@ -1,0 +1,15 @@
+// BASE STYLINGS
+body {
+  background: black;
+}
+
+
+
+// import scss partials
+@import 'config';
+@import 'details';
+@import 'feed';
+@import 'footer';
+@import 'header';
+@import 'hobbies';
+@import 'side-menu';
