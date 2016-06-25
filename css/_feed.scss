@@ -1,14 +1,20 @@
 .ghostie {
   background-image: url('assets/ghost-frand.png');
   background-size: 150px 150px;
+  // opacity: 0;
   width: 150px;
   height: 150px;
+  display: inline-block;
   // margin: 0 auto;
+  margin-top: 200px;
   margin-right: 10px;
-  position: relative;
+  position: absolute;
   text-align: center;
-  transition: transform 5s ease-in-out;
-  // transform: translateY(500px);
+  animation: move 20s linear;
+  cursor: pointer;
+  @keyframes move {
+    100% {transform: translateY(-2000px);}
+  }
   img {
     margin-top: 10px;
     width: 75px;

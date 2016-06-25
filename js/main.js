@@ -24,7 +24,7 @@ window.addEventListener('load', function () {
   app.init();
   setInterval(function () {
     ajax.read(app.getFriend, app.randoUrl);
-  }, 5000);
+  }, 2000);
 })
 
 const app = {
@@ -39,6 +39,15 @@ const app = {
 
   },
   events: function() {
+    let menu = document.getElementById("menu");
+    menu.addEventListener('click', function(){
+      menu.parentNode.style.transform = "translateY(-260px)";
+    })
+
+    let home = document.getElementById("home");
+    home.addEventListener('click', function(){
+      menu.parentNode.style.transform = "translateY(0)";
+    })
 
   },
   getFriend: function (response) {
@@ -46,17 +55,17 @@ const app = {
     let id = response.info.seed;
 
     if (app.friends.length === 5) {
-        let idToDelete = app.friends[0].info.seed;
-        document.getElementById(`${idToDelete}`).remove();
+
+        document.getElementById(`${app.friends[0].info.seed}`).remove();
         app.friends.shift();
         app.friends.push(response);
+
     } else {
+
         app.friends.push(response);
     }
-    console.log(app.friends);
-    console.log(app.friends[app.friends.length -1]);
 
-
+    // CREATE GHOSTIE HTML
     let child = document.createElement('div');
     child.className = 'ghostie';
     child.id = `${id}`;
@@ -66,15 +75,10 @@ const app = {
             <img src='${friend.picture.medium}' />
             <p>The Ghost of <br><b>${friend.name.first}</b><br> Says hi.</p>
         `;
-    child.style.marginLeft = `${app.position()}%`;
-    let parent = document.getElementById('main-window');
+
+    // APPEND GHOSTIE TO FEED AT RANDOM X AXIS (MARGIN % for RESPONSIVE)
+    child.style.marginLeft = `${filter.position()}%`;
+    let parent = document.getElementById('views');
     parent.appendChild(child);
-  },
-  position: function () {
-      let ranPos = function () {
-      // let w = (window.innerWidth);
-      return Math.floor((Math.random() * 65) + 1);
-    };
-    return ranPos();
   }
 }
