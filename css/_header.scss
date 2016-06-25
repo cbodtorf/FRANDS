@@ -1,11 +1,16 @@
-.top {
+/********************************
+*  HEADER
+*********************************/
+
+.top, nav{
   width: 100%;
   height: 200px;
-  display: inline-block;
+  display: block;
   position: fixed;
   background: azure;
   box-shadow: 0 0 2px 5px rgba(0,0,0,0.2);
   font-family: 'Boogaloo', cursive;
+  z-index: 9999;
   img {
     // https://www.iconfinder.com/icons/492965/anonymous_ghost_hand_drawn_snap_chat_social_icon#size=128
     border: 3px solid black;
@@ -75,4 +80,42 @@
 .tooltip:hover .tooltiptext {
     visibility: visible;
 }
+}
+
+/********************************
+* NAV
+*********************************/
+/////NAV-TEST///////////
+// .top {
+//   bottom: 2000px;
+// }
+///////NAV-TEST//////
+nav {
+  background: lightpink;
+  z-index: 8888;
+  ul, input {
+    width: 100%;
+    margin: 0 auto;
+    font-size: 2em;
+  }
+  ul {
+    margin-top: 30px;
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+  }
+  li:hover {
+    font-weight: bold;
+    text-shadow: 2px 2px rgba(0,0,0,0.3);
+    cursor: pointer;
+  }
+  input {
+    width: 50%;
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 20px;
+  }
+  .tooltip .tooltiptext {
+    background-color: lightpink;
+  }
 }

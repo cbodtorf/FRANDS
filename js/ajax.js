@@ -4,37 +4,44 @@
 
 module.exports = {
 
-  read: (func, url) => {
+  read: function(func, url) {
     // call app.read(func, url);
-    app.request.addEventListener('load', func );
-    app.request.open('READ', url);
-    app.requeset.send();
+    let request = new XMLHttpRequest();
+    request.addEventListener('load', function() {
+      let friend = JSON.parse(this.responseText);
+      func(friend);
+    } );
+    request.open('GET', url);
+    request.send();
   },
 
 
-  create: (func) => {
+  create: function(func) {
     // call app.create(func);
-    app.request.addEventListener('load', func );
-    app.request.open('POST', app.savedUrl);
-    app.request.send();
+    let request = new XMLHttpRequest();
+    request.addEventListener('load', func );
+    request.open('POST', app.savedUrl);
+    request.send();
   },
 
 
-  update: (func, url, id) => {
+  update: function(func, url, id) {
     // call app.update(func, url, id);
+    let request = new XMLHttpRequest();
     let updateUrl = url + '/' + id;
-    app.request.addEventListener('load', func );
-    app.request.open('PUT', updateUrl);
-    app.request.send();
+    request.addEventListener('load', func );
+    request.open('PUT', updateUrl);
+    request.send();
   },
 
 
-  delete: (func, url, id) => {
+  delete: function(func, url, id) {
     // call app.delete(func, url, id);
+    let request = new XMLHttpRequest();
     let deleteUrl = url + '/' + id;
-    app.request.addEventListener('load', func );
-    app.request.open('DELETE', deleteUrl);
-    app.request.send();
+    request.addEventListener('load', func );
+    request.open('DELETE', deleteUrl);
+    request.send();
   }
 
 

@@ -3,7 +3,8 @@
 ********************************/
 
 module.exports = {
-  filter: => {
+  filter: function () {
     console.log("hey filter time")
-  };
+  }
+  
 };

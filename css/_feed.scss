@@ -1,0 +1,21 @@
+.ghostie {
+  background-image: url('assets/ghost-frand.png');
+  background-size: 150px 150px;
+  width: 150px;
+  height: 150px;
+  // margin: 0 auto;
+  margin-right: 10px;
+  position: relative;
+  text-align: center;
+  transition: transform 5s ease-in-out;
+  // transform: translateY(500px);
+  img {
+    margin-top: 10px;
+    width: 75px;
+    border-radius: 50%;
+  }
+  p {
+    font-size: .4em;
+    margin-top: 0;
+  }
+}
