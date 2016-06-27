@@ -63,23 +63,32 @@ module.exports = {
 const ajax = require('./ajax');
 const tmpl = require('./templates');
 
+let feed = document.getElementById('feed');
+let details = document.getElementById('details');
+let back = document.getElementById('back');
+let add = document.getElementById('add');
+let bottle = document.getElementById('bottle');
+
 
 module.exports = {
 
   iChooseYou(url) {
-      let feed = document.getElementById('feed');
-      let details = document.getElementById('details');
 
       feed.addEventListener('click', () => {
           let ghostie = event.target.getAttribute('data-id');
           if (ghostie === null) {return}
             else {
-              console.log(`${url}?seed=${ghostie}`);
               feed.style.display = 'none';
               details.style.display = 'block';
-              ajax.read(capture ,`${url}?seed=${ghostie}`)
+              back.style.display = 'inline-block';
+              add.style.display = 'inline-block';
+              ajax.read(capture ,`${url}?seed=${ghostie}`);
             };
       })
+
+      /*******************************
+      * CREATE/PLACE GHOST IN BOTTLE
+      ********************************/
 
       let capture  = (response) => {
           let friend = response.results[0];
@@ -99,6 +108,16 @@ module.exports = {
       }
 
 
+  },
+
+  back() {
+      back.addEventListener('click', () => {
+          details.style.display = "none";
+          back.style.display = "none";
+          add.style.display = "none";
+          bottle.innerHTML = "";
+          feed.style.display = "block";
+    })
   }
 
 }
@@ -167,6 +186,8 @@ var app = {
 
     // click ghost to capture
     bottle.iChooseYou(app.randoUrl);
+    // back to ghost feed
+    bottle.back();
   },
 
 

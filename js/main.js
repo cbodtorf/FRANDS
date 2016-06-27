@@ -61,6 +61,8 @@ const app = {
 
     // click ghost to capture
     bottle.iChooseYou(app.randoUrl);
+    // back to ghost feed
+    bottle.back();
 
   },
 
