@@ -17,6 +17,7 @@
     border: 3px solid black;
     padding: 3px;
     border-radius: 33%;
+    text-align: center;
     margin-top: 40px;
     margin-left: 50px;
     height: 75px;
@@ -33,7 +34,7 @@
     text-align: center;
     color: black;
     margin-left: 20px;
-    margin-top: 31px;
+    margin-top: 63px;
     vertical-align: top;
   }
   h4 {
@@ -42,7 +43,7 @@
     font-size: 2em;
     line-height: 10px;
     margin: 0 auto;
-    margin-top: 5px;
+    margin-top: 30px;
     text-align: center;
     &:hover {
       transform: scale(1.5);
@@ -107,14 +108,19 @@ nav {
   }
   li:hover {
     font-weight: bold;
-    text-shadow: 2px 2px rgba(0,0,0,0.3);
+    text-shadow: 0px 2px 1px rgba(0,0,0,0.2);
     cursor: pointer;
   }
   input {
     width: 50%;
     display: block;
     margin-top: 5px;
-    margin-bottom: 20px;
+    margin-bottom: -4px;
+    border-radius: 10px;
+    outline: none;
+    border: 2px solid black;
+    box-sizing: border-box;
+    padding-left: 10px;
   }
   .tooltip .tooltiptext {
     background-color: lightpink;

@@ -13,16 +13,17 @@ const tmpl = require('./templates');
 // ajax.update(func, url, id)
 // ajax.delete(func, url, id)
 const ajax = require('./ajax');
+const bottle = require('./bottle');
 
 
 /*******************************
 * ON READY: LOAD APP
 ********************************/
 
-window.addEventListener('load', function () {
+window.addEventListener('load', () => {
   console.log('page has loaded');
   app.init();
-  setInterval(function () {
+  setInterval(() => {
     ajax.read(app.getFriend, app.randoUrl);
   }, 2000);
 })
@@ -30,55 +31,71 @@ window.addEventListener('load', function () {
 const app = {
   randoUrl: 'https://randomuser.me/api/',
   savedUrl: 'http://tiny-tiny.herokuapp.com/collections/ghostfrand',
+  feed: [],
   friends: [],
-  init: function () {
+
+  init() {
     app.events();
     app.styles();
   },
-  styles: function () {
+  styles() {
 
   },
-  events: function() {
+
+  /*******************************
+  * EVENTS
+  ********************************/
+
+  events() {
+
+    // header/nav clicks
     let menu = document.getElementById("menu");
-    menu.addEventListener('click', function(){
+    menu.addEventListener('click', () => {
       menu.parentNode.style.transform = "translateY(-260px)";
     })
 
     let home = document.getElementById("home");
-    home.addEventListener('click', function(){
+    home.addEventListener('click', () => {
       menu.parentNode.style.transform = "translateY(0)";
     })
 
+    // click ghost to capture
+    bottle.iChooseYou(app.randoUrl);
+
   },
-  getFriend: function (response) {
+
+  /*******************************
+  * POPULATE MAIN FEED
+  ********************************/
+
+  getFriend(response) {
     let friend = response.results[0];
     let id = response.info.seed;
 
-    if (app.friends.length === 5) {
+    // LIMITS # OF GHOSTIES
+    if (app.feed.length === 5) {
 
-        document.getElementById(`${app.friends[0].info.seed}`).remove();
-        app.friends.shift();
-        app.friends.push(response);
+        document.getElementById(`${app.feed[0].info.seed}`).remove();
+        app.feed.shift();
+        app.feed.push(response);
 
     } else {
-
-        app.friends.push(response);
+        app.feed.push(response);
     }
 
     // CREATE GHOSTIE HTML
     let child = document.createElement('div');
     child.className = 'ghostie';
     child.id = `${id}`;
+    child.setAttribute('data-id',`${id}`);
 
     // Insert HTML content into the child object.
-        child.innerHTML = `
-            <img src='${friend.picture.medium}' />
-            <p>The Ghost of <br><b>${friend.name.first}</b><br> Says hi.</p>
-        `;
+        child.innerHTML = tmpl.mainFeed(friend, id);
 
     // APPEND GHOSTIE TO FEED AT RANDOM X AXIS (MARGIN % for RESPONSIVE)
     child.style.marginLeft = `${filter.position()}%`;
-    let parent = document.getElementById('views');
+    let parent = document.getElementById('feed');
     parent.appendChild(child);
-  }
+  },
+
 }

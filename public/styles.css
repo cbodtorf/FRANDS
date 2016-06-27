@@ -5,12 +5,56 @@ body {
   width: 95%;
   display: block;
   padding: 5px;
-  padding-top: 250px;
+  padding-top: 225px;
   margin: 0 auto;
   overflow: hidden; }
 
-#views {
+#details {
+  display: none;
+  border: 2px azure;
+  width: 85%;
+  height: 400px;
+  margin: 0 auto; }
+  #details .caught {
+    animation: none !important;
+    position: static;
+    display: block;
+    margin: 0 auto;
+    margin-top: 50px; }
+
+.bottle, .cork {
+  margin: 0 auto;
+  background-color: azure;
+  opacity: 0.8;
+  border: 2px solid lightslategray;
+  border-radius: 20px; }
+
+.cap {
+  width: 150px;
+  height: 20px; }
+
+.neck {
+  width: 125px;
+  height: 40px; }
+
+.body {
+  width: 300px;
+  height: 320px;
+  border-top-left-radius: 30%;
+  border-top-right-radius: 30%; }
+
+.cork {
+  width: 125px;
+  background-color: tan;
+  height: 100%;
+  border: none; }
+
+.out {
+  height: 10px; }
+
+#feed {
   width: 80%;
+  background-color: #141414;
   display: block;
   padding: 5px;
   position: relative;
@@ -18,7 +62,8 @@ body {
   margin: 0px auto;
   overflow: hidden;
   height: 100px;
-  border: 2px solid azure; }
+  border: 2px solid azure;
+  border-radius: 5px; }
 
 .ghostie {
   background-image: url("assets/ghost-frand.png");
@@ -32,6 +77,10 @@ body {
   text-align: center;
   animation: move 20s linear;
   cursor: pointer; }
+  .ghostie:hover img {
+    box-sizing: border-box;
+    border: 2px solid azure;
+    box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.2); }
 
 @keyframes move {
   100% {
@@ -39,7 +88,8 @@ body {
   .ghostie img {
     margin-top: 10px;
     width: 75px;
-    border-radius: 50%; }
+    border-radius: 50%;
+    box-sizing: border-box; }
   .ghostie p {
     font-size: .4em;
     margin-top: 0; }
@@ -64,6 +114,7 @@ body {
     border: 3px solid black;
     padding: 3px;
     border-radius: 33%;
+    text-align: center;
     margin-top: 40px;
     margin-left: 50px;
     height: 75px;
@@ -78,7 +129,7 @@ body {
     text-align: center;
     color: black;
     margin-left: 20px;
-    margin-top: 31px;
+    margin-top: 63px;
     vertical-align: top; }
   .top h4, nav h4 {
     font-family: arial;
@@ -86,7 +137,7 @@ body {
     font-size: 2em;
     line-height: 10px;
     margin: 0 auto;
-    margin-top: 5px;
+    margin-top: 30px;
     text-align: center; }
     .top h4:hover, nav h4:hover {
       transform: scale(1.5);
@@ -131,12 +182,17 @@ nav {
     text-align: center; }
   nav li:hover {
     font-weight: bold;
-    text-shadow: 2px 2px rgba(0, 0, 0, 0.3);
+    text-shadow: 0px 2px 1px rgba(0, 0, 0, 0.2);
     cursor: pointer; }
   nav input {
     width: 50%;
     display: block;
     margin-top: 5px;
-    margin-bottom: 20px; }
+    margin-bottom: -4px;
+    border-radius: 10px;
+    outline: none;
+    border: 2px solid black;
+    box-sizing: border-box;
+    padding-left: 10px; }
   nav .tooltip .tooltiptext {
     background-color: lightpink; }

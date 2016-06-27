@@ -1,0 +1,44 @@
+#details {
+  display: none;
+  border: 2px azure;
+  width: 85%;
+  height: 400px;
+  margin: 0 auto;
+  .caught {
+    animation: none !important;
+    position: static;
+    display: block;
+    margin: 0 auto;
+    margin-top: 50px;
+  }
+}
+.bottle, .cork {
+  margin: 0 auto;
+  background-color: azure;
+  opacity: 0.8;
+  border: 2px solid lightslategray;
+  border-radius: 20px;
+}
+.cap {
+  width: 150px;
+  height: 20px;
+}
+.neck {
+  width: 125px;
+  height: 40px;
+}
+.body {
+  width: 300px;
+  height: 320px;
+  border-top-left-radius: 30%;
+  border-top-right-radius: 30%;
+}
+.cork {
+  width: 125px;
+  background-color: tan;
+  height: 100%;
+  border: none;
+}
+.out {
+  height: 10px;
+}

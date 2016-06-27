@@ -5,42 +5,50 @@
 
 module.exports = {
 
-  read: function(func, url) {
-    // call app.read(func, url);
+  read(func, url) {
+
     let request = new XMLHttpRequest();
+
+    //*** for some reason I'm getting a  JSON PARSE ERROR w/ ARROW FUNCTION HERE ***
     request.addEventListener('load', function() {
+
       let friend = JSON.parse(this.responseText);
       func(friend);
-    } );
+
+    });
+
     request.open('GET', url);
     request.send();
   },
 
 
-  create: function(func) {
-    // call app.create(func);
+  create(func) {
+
     let request = new XMLHttpRequest();
     request.addEventListener('load', func );
+
     request.open('POST', app.savedUrl);
     request.send();
   },
 
 
-  update: function(func, url, id) {
-    // call app.update(func, url, id);
+  update(func, url, id) {
+
     let request = new XMLHttpRequest();
     let updateUrl = url + '/' + id;
     request.addEventListener('load', func );
+
     request.open('PUT', updateUrl);
     request.send();
   },
 
 
-  delete: function(func, url, id) {
-    // call app.delete(func, url, id);
+  delete(func, url, id) {
+
     let request = new XMLHttpRequest();
     let deleteUrl = url + '/' + id;
     request.addEventListener('load', func );
+
     request.open('DELETE', deleteUrl);
     request.send();
   }
@@ -49,6 +57,55 @@ module.exports = {
 }
 
 },{}],2:[function(require,module,exports){
+/*******************************
+* BOTTLE YOUR GHOSTIES FOR FRESHNESS
+********************************/
+const ajax = require('./ajax');
+const tmpl = require('./templates');
+
+
+module.exports = {
+
+  iChooseYou(url) {
+      let feed = document.getElementById('feed');
+      let details = document.getElementById('details');
+
+      feed.addEventListener('click', () => {
+          let ghostie = event.target.getAttribute('data-id');
+          if (ghostie === null) {return}
+            else {
+              console.log(`${url}?seed=${ghostie}`);
+              feed.style.display = 'none';
+              details.style.display = 'block';
+              ajax.read(capture ,`${url}?seed=${ghostie}`)
+            };
+      })
+
+      let capture  = (response) => {
+          let friend = response.results[0];
+          let id = response.info.seed;
+
+          // CREATE GHOSTIE HTML
+          let child = document.createElement('div');
+          child.className = 'ghostie caught';
+          child.id = `${id}`;
+          child.setAttribute('data-id',`${id}`);
+
+          // Insert HTML content into the child object.
+          child.innerHTML = tmpl.mainFeed(friend, id);
+
+          let parent = document.getElementById('bottle');
+          parent.appendChild(child);
+      }
+
+
+  }
+
+}
+
+},{"./ajax":1,"./templates":5}],3:[function(require,module,exports){
+'use strict';
+
 // Created by Caleb Bodtorf
 // Date 6/24/2016
 
@@ -57,14 +114,14 @@ module.exports = {
 ********************************/
 
 // const _ = require('../node_modules/underscore/underscore');
-const filter = require('./filter');
-const tmpl = require('./templates');
+var filter = require('./filter');
+var tmpl = require('./templates');
 // ajax.read(func, url)
 // ajax.create(func)
 // ajax.update(func, url, id)
 // ajax.delete(func, url, id)
-const ajax = require('./ajax');
-
+var ajax = require('./ajax');
+var bottle = require('./bottle');
 
 /*******************************
 * ON READY: LOAD APP
@@ -76,83 +133,95 @@ window.addEventListener('load', function () {
   setInterval(function () {
     ajax.read(app.getFriend, app.randoUrl);
   }, 2000);
-})
+});
 
-const app = {
+var app = {
   randoUrl: 'https://randomuser.me/api/',
   savedUrl: 'http://tiny-tiny.herokuapp.com/collections/ghostfrand',
+  feed: [],
   friends: [],
-  init: function () {
+
+  init: function init() {
     app.events();
     app.styles();
   },
-  styles: function () {
+  styles: function styles() {},
 
-  },
-  events: function() {
-    let menu = document.getElementById("menu");
-    menu.addEventListener('click', function(){
+
+  /*******************************
+  * EVENTS
+  ********************************/
+
+  events: function events() {
+
+    // header/nav clicks
+    var menu = document.getElementById("menu");
+    menu.addEventListener('click', function () {
       menu.parentNode.style.transform = "translateY(-260px)";
-    })
+    });
 
-    let home = document.getElementById("home");
-    home.addEventListener('click', function(){
+    var home = document.getElementById("home");
+    home.addEventListener('click', function () {
       menu.parentNode.style.transform = "translateY(0)";
-    })
+    });
 
+    // click ghost to capture
+    bottle.iChooseYou(app.randoUrl);
   },
-  getFriend: function (response) {
-    let friend = response.results[0];
-    let id = response.info.seed;
 
-    if (app.friends.length === 5) {
 
-        document.getElementById(`${app.friends[0].info.seed}`).remove();
-        app.friends.shift();
-        app.friends.push(response);
+  /*******************************
+  * POPULATE MAIN FEED
+  ********************************/
 
+  getFriend: function getFriend(response) {
+    var friend = response.results[0];
+    var id = response.info.seed;
+
+    // LIMITS # OF GHOSTIES
+    if (app.feed.length === 5) {
+
+      document.getElementById('' + app.feed[0].info.seed).remove();
+      app.feed.shift();
+      app.feed.push(response);
     } else {
-
-        app.friends.push(response);
+      app.feed.push(response);
     }
 
     // CREATE GHOSTIE HTML
-    let child = document.createElement('div');
+    var child = document.createElement('div');
     child.className = 'ghostie';
-    child.id = `${id}`;
+    child.id = '' + id;
+    child.setAttribute('data-id', '' + id);
 
     // Insert HTML content into the child object.
-        child.innerHTML = `
-            <img src='${friend.picture.medium}' />
-            <p>The Ghost of <br><b>${friend.name.first}</b><br> Says hi.</p>
-        `;
+    child.innerHTML = tmpl.mainFeed(friend, id);
 
     // APPEND GHOSTIE TO FEED AT RANDOM X AXIS (MARGIN % for RESPONSIVE)
-    child.style.marginLeft = `${filter.position()}%`;
-    let parent = document.getElementById('views');
+    child.style.marginLeft = filter.position() + '%';
+    var parent = document.getElementById('feed');
     parent.appendChild(child);
   }
-}
-
-},{"./ajax":1,"./filter":3,"./templates":4}],3:[function(require,module,exports){
+};
+},{"./ajax":1,"./bottle":2,"./filter":4,"./templates":5}],4:[function(require,module,exports){
 /*******************************
 * FRIEND FILTERS
 ********************************/
 
 module.exports = {
-  filter: function () {
+  filter() {
     console.log("hey filter time")
   },
-  position: function () {
-      let ranPos = function () {
+  position() {
+      let ranPos = () => {
       // let w = (window.innerWidth);
       return Math.floor((Math.random() * 65) + 1);
     };
     return ranPos();
-  }  
+  }
 };
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /*******************************
 * <!--TEMPLATES -->
 ********************************/
@@ -165,12 +234,14 @@ module.exports = {
         <span><%= name %></span>
       </li>
   `,
-  mainFeed: `
-      <div class="main--friend">
-        <img src=" <%= image %> " alt="" />
-        <span><%= name %></span>
-      </div>
-  `,
+  mainFeed(friend, id) {
+    return `
+        <img src='${friend.picture.medium}' data-id='${id}' />
+        <p data-id='${id}'>The Ghost of <br>
+        <b> ${friend.name.first}</b>
+        <br> Says hi.</p>
+    `
+  }
 }
 
-},{}]},{},[2])
+},{}]},{},[3])

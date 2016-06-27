@@ -10,10 +10,12 @@ module.exports = {
         <span><%= name %></span>
       </li>
   `,
-  mainFeed: `
-      <div class="main--friend">
-        <img src=" <%= image %> " alt="" />
-        <span><%= name %></span>
-      </div>
-  `,
+  mainFeed(friend, id) {
+    return `
+        <img src='${friend.picture.medium}' data-id='${id}' />
+        <p data-id='${id}'>The Ghost of <br>
+        <b> ${friend.name.first}</b>
+        <br> Says hi.</p>
+    `
+  }
 }

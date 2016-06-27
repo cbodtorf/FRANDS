@@ -3,14 +3,14 @@
 ********************************/
 
 module.exports = {
-  filter: function () {
+  filter() {
     console.log("hey filter time")
   },
-  position: function () {
-      let ranPos = function () {
+  position() {
+      let ranPos = () => {
       // let w = (window.innerWidth);
       return Math.floor((Math.random() * 65) + 1);
     };
     return ranPos();
-  }  
+  }
 };
